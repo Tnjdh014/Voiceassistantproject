@@ -1,7 +1,7 @@
 #installed openAI whisper
 #installed PYtorch, selected to run through my GPU
 #installed choco for windows
-
+#installed ffmpeg
 
 import whisper
 
