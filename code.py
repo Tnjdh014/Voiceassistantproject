@@ -1,10 +1,16 @@
-#installed openAI whisper
-#installed PYtorch, selected to run through my GPU
-#installed choco for windows
-#installed ffmpeg
-
 import whisper
+from transformers import AutoTokenizer, pipeline
+import transformers
+import torch
 
 model = whisper.load_model("base")
-result = model.transcribe("AUDIO") #<----- make sure file is in directory by either selecting folder onto explorer or vscode directory
-print(result["text"])
+transcription = model.transcribe('current.m4a')
+text = transcription["text"]
+
+#NLP model
+model_name = "meta-llama/Llama-2-7b-chat-hf"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+text_generator = pipeline("text-generation", model=model_name, tokenizer=tokenizer)
+
+response = text_generator(text, do_sample=True, max_length=100)[0]["generated_text"]
+print(response)
